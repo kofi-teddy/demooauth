@@ -69,7 +69,7 @@ def login_v3(request):
                 if app_obj:
                     client_id =  app_obj.client_id
                     client_secret =  app_obj.client_secret
-                    url = http://localhost:1200/o/token/
+                    url = "http://localhost:1200/o/token/"
                     request_data =  {
                         "grant_type": "password",
                         "username": username,
@@ -100,7 +100,7 @@ def token_refresh(request):
                 "status": False,
                 "message": "Invalid token"
             })
-        url = http://localhost:1200/o/token/
+        url = "http://localhost:1200/o/token/"
         request_data = {
             "grant_type": "refresh_token",
             "client_id": settings.OAUTH2_CLIENT_ID,
@@ -121,21 +121,25 @@ def token_refresh(request):
 
 
 @api_view(["POST"])
-def revoke_token(request):
+@permission_classes([permissions.AllowAny])
+def revoke_token_hjjh(request):
+    import requests
     
     try:
+        print("hellooo")
 
-        url = http://localhost:1200/o/revoke_token/ 
+        url = "http://localhost:1200/o/revoke_token/" 
         request_data = {
             "client_id": settings.OAUTH2_CLIENT_ID,
             "client_secret": settings.OAUTH2_CLIENT_SECRET,
             "token": request.data.get("access_token")
         }
-
+        print("me")
         response = requests.post(url, request_data).text
         # response_data = json.loads(response)
 
         print(response)
+        print("fine")
 
         return Response({
             "status": True,
